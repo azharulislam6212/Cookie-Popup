@@ -1,0 +1,189 @@
+<div class="popup-overlay">
+  <div class="popup">
+    <div class="close-icon close-btn">  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" height="1em" width="1em"><path d="M312.973 375.032C322.342 384.401 322.342 399.604 312.973 408.973S288.401 418.342 279.032 408.973L160 289.941L40.968 408.973C31.599 418.342 16.396 418.342 7.027 408.973S-2.342 384.401 7.027 375.032L126.059 256L7.027 136.968C-2.342 127.599 -2.342 112.396 7.027 103.027S31.599 93.658 40.968 103.027L160 222.059L279.032 103.027C288.401 93.658 303.604 93.658 312.973 103.027S322.342 127.599 312.973 136.968L193.941 256L312.973 375.032Z"/></svg>
+  </div>
+
+
+   <h2 class="popup-title">Dear Customer</h2>
+
+    <p>We have a dedicated store which serves in your country <br> Would you like us to take you there?</p>
+   
+
+    <div class="btn-wrapper">
+    
+      <a href="javascript:void(0);" class="yes-btn submit-btn">Yes</a>
+      <a href="javascript:void(0);" class="no-btn close-btn">No</a>
+   
+    </div>
+  </div>
+</div>
+
+
+  <style>
+  .popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    rigth: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding: 1rem;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+  }
+
+  .popup-overlay .popup {
+    width: 450px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+   position: relative;
+  }
+
+  .popup-title{
+    font-size: 26px;
+   }
+  
+   .popup-overlay .popup p {
+    flex: 0 1 100%;
+    padding: 0 1rem;
+    margin: 0;
+    margin-top: 1rem;
+    font-family: sans-serif;
+  }
+
+  .btn-wrapper{
+    display: flex;
+    gap:5px;
+    margin-top: 20px;
+    align-items: center;
+    justify-content: center;
+    
+  }
+  
+  .close-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+ .yes-btn{
+   background-color:#5383EC;
+   color:#fff;
+   border-radius:4px;
+   box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+   min-width: 65px;
+   height:40px;
+   line-height:40px;
+   text-align:center;
+   display: inline-block;
+}
+
+.no-btn{
+  background-color:#DDDDDD;
+  color:#000;
+  border-radius:4px;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+  min-width: 65px;
+  height:40px;
+  line-height:40px;
+  text-align:center;
+  display: inline-block;
+}
+
+</style>
+
+
+<script src="{{ 'jquery.min.js' | asset_url }}" ></script>
+<script>
+  jQuery(document).ready(function($) {
+
+    console.log(getCookie('popupCookie'));
+
+    $.getJSON("https://geolocation-db.com/json/697de680-a737-11ea-9820-af05f4014d91", function (data) {   
+      var my_country = data.country_code;         
+      console.log('Country code is ' + my_country);
+      if(my_country != 'US'){    }   // apply if contry ways popup show or not
+       
+
+        if( getCookie('popupCookie') != 'yes'){ 
+          if(getCookie('popupCookie') != 'no' ){
+            $('.popup-overlay').css("display", "flex").hide().fadeIn();
+          }
+        }
+    
+        $('.close-btn').click(function(){
+          $('.popup-overlay').fadeOut();
+          setCookie( 'popupCookie', 'no', .00069444444 );
+        });
+        
+        $('.submit-btn').click(function(){
+          $('.popup-overlay').fadeOut();
+          setCookie( 'popupCookie', 'yes', .0034722222 );
+          var url = "https://uk.craftdlondon.com/";
+          $(location).attr('href', url); 
+    
+        });
+        
+        $("body").click(function(){
+          $('.popup-overlay').fadeOut();
+          setCookie( 'popupCookie', 'no', .00069444444 );
+        });
+
+
+      
+    });
+
+
+
+  
+    function getCookie(cname) {
+      var name = cname + "=";
+      var ca = document.cookie.split(';');
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+  
+    function setCookie(cname, cvalue, exdays) {
+      var d = new Date();
+      d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+      var expires = "expires=" + d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+    
+  });
+
+
+</script>
+
+
+
+
+
+
+
+
+  
